@@ -32,6 +32,6 @@ Trace And load this path '$(vPath)';
 $(include=$(vPath));
 
 Let vPath =  Null();
-Call WriteDebugLine ('Come on!!!!!');
+Call WriteDebugLine ('Write debug line works!!!');
 
-Call WriteNoOfRows ('_DebugTable','Heyyyy!!!!');
+Call WriteNoOfRows ('_DebugTable','Heyyyy!!!! Same for number of rows');
