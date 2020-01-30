@@ -18,15 +18,17 @@ Set DayNames='mån;tis;ons;tors;fre;lör;sön';
 Set LongDayNames='måndag;tisdag;onsdag;torsdag;fredag;lördag;söndag';
 Set NumericalAbbreviation='3:k;6:M;9:G;12:T;15:P;18:E;21:Z;24:Y;-3:m;-6:μ;-9:n;-12:p;-15:f;-18:a;-21:z;-24:y';
 
-Trace '$(vBranch)';
+Trace This is the branch: '$(vBranch)';
 Let vBeginScript = Timestamp(Now(),'YYYY-MM-DD hh:mm:ss.fff');
 
-Let vPath = 'https://raw.githubusercontent.com/skage/qlik-script-snippets/skage-patch-1/sub/WriteDebugLine.qvs';
-Trace '$(vPath)';
+Let vPath = 'https://raw.githubusercontent.com/skage/qlik-script-snippets/$(vBranch)/sub/WriteDebugLine.qvs';
+//Let vPath = 'https://raw.githubusercontent.com/skage/qlik-script-snippets/skage-patch-1/sub/WriteDebugLine.qvs';
+Trace Load this path '$(vPath)';
 $(include=$(vPath));
 
-Let vPath = 'https://raw.githubusercontent.com/skage/qlik-script-snippets/skage-patch-1/sub/WriteNoOfRows.qvs';
-Trace '$(vPath)';
+Let vPath = 'https://raw.githubusercontent.com/skage/qlik-script-snippets/$(vBranch)/sub/WriteNoOfRows.qvs';
+//Let vPath = 'https://raw.githubusercontent.com/skage/qlik-script-snippets/skage-patch-1/sub/WriteNoOfRows.qvs';
+Trace And load this path '$(vPath)';
 $(include=$(vPath));
 
 Let vPath =  Null();
