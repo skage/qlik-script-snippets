@@ -25,9 +25,10 @@ Let vPath = 'https://raw.githubusercontent.com/skage/qlik-script-snippets/$(vBra
 Trace '$(vPath)';
 $(include=$(vPath));
 
-Let vPath = 'https://raw.githubusercontent.com/skage/qlik-script-snippets/$(vBranch)/sub/WriteNoOfRows.qvs';
+Let vPath = 'https://raw.githubusercontent.com/skage/qlik-script-snippets/$(skage-patch-1)/sub/WriteNoOfRows.qvs';
 Trace '$(vPath)';
-//$(include=https://raw.githubusercontent.com/skage/qlik-script-snippets/$(vBranch)/sub/WriteNoOfRows.qvs);
+//$(include=https://raw.githubusercontent.com/skage/qlik-script-snippets/$(skage-patch-1)/sub/WriteNoOfRows.qvs);
+$(include=$(vPath));
 
 Let vPath =  Null();
 Call WriteDebugLine ('Come on!!!!!');
