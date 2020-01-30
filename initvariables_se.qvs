@@ -21,11 +21,15 @@ Set NumericalAbbreviation='3:k;6:M;9:G;12:T;15:P;18:E;21:Z;24:Y;-3:m;-6:μ;-9:n;
 Trace '$(vBranch)';
 Let vBeginScript = Timestamp(Now(),'YYYY-MM-DD hh:mm:ss.fff');
 
-$(include=https://raw.githubusercontent.com/skage/qlik-script-snippets/$(vBranch)/sub/WriteDebugLine.qvs);
+Let vPath = 'https://raw.githubusercontent.com/skage/qlik-script-snippets/$(vBranch)/sub/WriteDebugLine.qvs';
+Trace '$(vPath)';
+$(include=$(vPath));
 
+Let vPath = 'https://raw.githubusercontent.com/skage/qlik-script-snippets/$(vBranch)/sub/WriteNoOfRows.qvs';
+Trace '$(vPath)';
+//$(include=https://raw.githubusercontent.com/skage/qlik-script-snippets/$(vBranch)/sub/WriteNoOfRows.qvs);
 
-$(include=https://raw.githubusercontent.com/skage/qlik-script-snippets/$(vBranch)/sub/WriteNoOfRows.qvs);
-
+Let vPath =  Null();
 Call WriteDebugLine ('Come on!!!!!');
 
 Call WriteNoOfRows ('_DebugTable','Heyyyy!!!!');
