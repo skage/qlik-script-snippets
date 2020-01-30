@@ -1,0 +1,22 @@
+Set ThousandSep=' ';
+Set DecimalSep=',';
+Set MoneyThousandSep=' ';
+Set MoneyDecimalSep=',';
+Set MoneyFormat='# ##0,00 kr;-# ##0,00 kr';
+Set TimeFormat='hh:mm:ss';
+Set DateFormat='YYYY-MM-DD';
+Set TimestampFormat='YYYY-MM-DD hh:mm:ss[.fff]';
+Set FirstWeekDay=0;
+Set BrokenWeeks=0;
+Set ReferenceDay=4;
+Set FirstMonthOfYear=1;
+Set CollationLocale='sv-SE';
+Set CreateSearchIndexOnReload=0;
+Set MonthNames='jan.;feb.;mars;apr.;maj;juni;juli;aug.;sep.;okt.;nov.;dec.';
+Set LongMonthNames='januari;februari;mars;april;maj;juni;juli;augusti;september;oktober;november;december';
+Set DayNames='mån;tis;ons;tors;fre;lör;sön';
+Set LongDayNames='måndag;tisdag;onsdag;torsdag;fredag;lördag;söndag';
+Set NumericalAbbreviation='3:k;6:M;9:G;12:T;15:P;18:E;21:Z;24:Y;-3:m;-6:μ;-9:n;-12:p;-15:f;-18:a;-21:z;-24:y';
+
+
+Let vBeginScript = Timestamp(Now(),'YYYY-MM-DD hh:mm:ss.fff');
