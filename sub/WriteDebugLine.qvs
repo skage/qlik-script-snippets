@@ -1,0 +1,32 @@
+Set vDebug = 'TABLE'; // Set to TRACE, NONE or TABLE
+
+// Will use NONE, TRACE, TABLE 
+Sub WriteDebugLine (dL)
+	Let _pDuration = _duration;
+	Let _duration = Interval(Now()- vBeginScript, 'hh:mm:ss');
+    Let dL = 'After ' & _duration & '('&Interval( _duration-_pDuration) &') -   ' & dL;
+
+	If(Upper(vDebug)='NONE') then
+    	//nothing
+        Trace Nothing;
+    ElseIf (Upper(vDebug) = 'TRACE') then
+        Trace ____________________;
+        Trace DEBUG: $(dL);
+        Trace --------------------;
+    ElseIf (Upper(vDebug) = 'TABLE') then
+    	// Output to table
+        If IsNull(TableNumber('_DebugTable')) then
+        	_DebugTable:
+            Load * Inline [_Debug.Timestamp, _Debug.Message];
+        End If
+        AddDebugInfo:
+        Concatenate (_DebugTable)
+        Load
+        	RowNo() as [_Debug.Sequence#],
+            Timestamp(Now()) as [_Debug.Timestamp],
+            '$(dL)' as [_Debug.Message]
+        AutoGenerate 1;
+    Else
+        Trace Fallback to nothing... Set the vDebug variable to TRACE, TABLE or NONE;
+    End If
+End Sub
