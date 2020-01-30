@@ -1,0 +1,6 @@
+Sub WriteNoOfRows(_tTableRows, _tMsg)
+	Let _tNoOFRows = Num(NoOfRows('$(_tTableRows)'), '#,##0', '.', ',');
+    
+    Call WriteDebugLine('$(_tTableRows) has: $(_tNoOFRows) rows after $(_tMsg)');
+    Let _tNoOFRows = Null();
+End Sub
