@@ -18,6 +18,9 @@ Set DayNames='mån;tis;ons;tors;fre;lör;sön';
 Set LongDayNames='måndag;tisdag;onsdag;torsdag;fredag;lördag;söndag';
 Set NumericalAbbreviation='3:k;6:M;9:G;12:T;15:P;18:E;21:Z;24:Y;-3:m;-6:μ;-9:n;-12:p;-15:f;-18:a;-21:z;-24:y';
 
+Set DISABLE_AUTO_CHART = 1;
+Set DISABLE_INSIGHTS = 1;
+
 Trace This is the branch: '$(vBranch)';
 Let vBeginScript = Timestamp(Now(),'YYYY-MM-DD hh:mm:ss.fff');
 
