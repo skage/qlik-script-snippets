@@ -1,0 +1,57 @@
+/* ************************************************************************************
+ itelligence Standard Qlik Calender Torben Seebach/Martin Didriksen Special Thanks to Rob Wunderlich and John Witherspoon
+ Configure Calender parameters
+ 	 Syntax:
+ 	 	Calendar(DateField[,Prefix[,Suffix[,FullCalendar]]])
+	 Example:
+		Call Calendar('[Date (NK)]','MyCal','Pre.','','true'); // creates a the MyCal table and fields are prefixed with Pre. In the superfast variat 
+		Call Calendar('[Date (NK)]'); //creates a table called calendar based of "Date (NK)" field	 
+	 Mandatory:
+	 	 @_DateField Contains the name of the field to connect the calendar to
+	 Optional:
+		 @_CalendarName Contains the name of the calendar we create
+		 @_CalendarPrefix A Prefix for all fields
+		 @_CalendarSuffix A Suffix for all fields
+		 @_FullCalendar If this contains a value then it creates a calendar with all dates from Min(Date) to Max(Date), default is the slowest option
+************************************************************************************ */
+Sub Calendar (_DateField,_CalendarName,_CalendarPrefix,_CalendarSuffix,_FullCalendar)
+	Let _StartTime = Now();
+	Let _CalendarName = If(Len('$(_CalendarName)')=0,'Calendar','$(_CalendarName)');
+	Let _CalendarPrefix = If(Len('$(_CalendarPrefix)')=0,'','$(_CalendarPrefix)');
+	Let _CalendarSuffix = If(Len('$(_CalendarSuffix)')=0,'','$(_CalendarSuffix)');
+	Let _FullCalendar = If(Len('$(_FullCalendar)')=0,1,0);
+	Let _DateField = PurgeChar(_DateField,'"[]');
+
+	"$(_CalendarName)":
+	LOAD
+		Distinct [$(_DateField)] 										as [$(_DateField)],
+		Text(Date([$(_DateField)])) 									as [$(_CalendarPrefix)DateText$(_CalendarSuffix)],
+		Year([$(_DateField)]) 											as [$(_CalendarPrefix)Year$(_CalendarSuffix)],
+		week([$(_DateField)])&'-'&Year([$(_DateField)]) 				as [$(_CalendarPrefix)WeekYear$(_CalendarSuffix)],
+		week([$(_DateField)]) 											as [$(_CalendarPrefix)Week$(_CalendarSuffix)],
+		Month([$(_DateField)]) 											as [$(_CalendarPrefix)Month$(_CalendarSuffix)],
+		Year([$(_DateField)])&'-'&Text(Date([$(_DateField)],'MM')) 		as [$(_CalendarPrefix)YearMonth$(_CalendarSuffix)],
+		'Q'&Ceil(Month([$(_DateField)])/3) 								as [$(_CalendarPrefix)Quarter$(_CalendarSuffix)],
+    	AutoNumber(MonthStart([$(_DateField)]),'_MonthSerial') 			as [$(_CalendarPrefix)MonthSerial$(_CalendarSuffix)],    
+ 		AutoNumber(QuarterStart([$(_DateField)]),'_QuarterSerial')		as [$(_CalendarPrefix)QuarterSerial$(_CalendarSuffix)],  
+   		AutoNumber(WeekYear([$(_DateField)]) &'|'&Week([$(_DateField)]),'_WeekSerial')		
+   																		as [$(_CalendarPrefix)WeekSerial$(_CalendarSuffix)] ;
+	If _FullCalendar=1 Then
+		Load Date(_DateStart+(Iterno()-1),'$(DateFormat)' ) 			as [$(_DateField)]
+		While (_DateStart+(Iterno()-1)<=_DateStop);
+		LOAD
+			Floor(Min(Fieldvalue('$(_DateField)',RecNo()))) 			as _DateStart,
+			Floor(Max(Fieldvalue('$(_DateField)',RecNo()))) 			as _DateStop
+		AUTOGENERATE FieldValueCount('$(_DateField)');
+	Else 
+		LOAD Num(Fieldvalue('$(_DateField)',RecNo())) 					as [$(_DateField)]
+		AUTOGENERATE FieldValueCount('$(_DateField)');
+	End If	
+	/* clean variables  */
+	Let _TotalTime = Round((Now()-_StartTime)*60*60*24,0.00000000001);
+	Let _StartTime = NULL;			
+	Let _vDateStart = NULL;
+	Let _vDateStop = NULL;
+	Trace $(_CalendarName) created in: $(_TotalTime) seconds;
+	Let _TotalTime = NULL;
+End Sub
