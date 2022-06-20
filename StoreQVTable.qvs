@@ -1,0 +1,32 @@
+// https://community.qlik.com/t5/Knowledge/During-STORE-command-the-File-Save-occasionally-fails/ta-p/1715771
+Sub StoreQVTable (Table, Path) 
+	
+	Set ErrorMode=0; 
+	Set ScriptErrorCount = 0; 
+	Set RC = 0; 
+	
+	Do While True() 
+	
+		Store [$(Table)] into [$(Path)] (qvd); 
+		
+		If $(ScriptErrorCount) = 0 then 
+			Exit Do 
+		Else 
+			Set ScriptErrorCount = 0; 
+			Let RC=RC+1; 
+		End If 
+				
+		If ($(RC) = 10) then // If not yet successful, exit script 
+			// CALL consoleLog('ERROR: Failed to save [$(Table)] INTO [$(Path)] after 10 tries.'); 
+			Trace 'ERROR: Failed to save [$(Table)] INTO [$(Path)] after 10 tries.'; 
+			Set ErrorMode=2; 
+			Load * from ERROR.qvd; 
+		End If 
+		
+		// CALL consoleLog('ERROR: Failed to save [$(Table)] INTO [$(Path)]. Try $(rc) of 10.'); 
+		Trace 'ERROR: Failed to save [$(Table)] INTO [$(Path)]. Try $(RC) of 10.'; 
+		Sleep 10000; // wait for 10secs. 
+	
+	Loop 
+	Set ErrorMode=2; 
+End Sub
